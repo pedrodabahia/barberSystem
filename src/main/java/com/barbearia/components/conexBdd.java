@@ -2,6 +2,7 @@ package com.barbearia.components;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 /**postgresql://admin_matos:ZcVWqMvD307RuvUdbtB8czUGpI4kWPUE@dpg-d00lftre5dus73c2iqb0-a/barberdb_chka
@@ -30,6 +31,7 @@ public class conexBdd {
         Statement statement;
         try{
             String query="create table "+table_name+"(empid SERIAL ,servico varchar(200),valor double precision,primary key(empid));";
+            //String query = "DROP TABLE IF EXISTS "+table_name;
             statement = conn.createStatement();
             statement.executeUpdate(query);
             System.out.println("tabela criada");
@@ -38,12 +40,13 @@ public class conexBdd {
         }
     }
         public void cadService(Connection conn,String table_name, String servico, double valor ){
-            Statement statement;
             try{
-                String query = String.format("insert into %s(servico,valor) values('%s', '$s')",table_name,servico,valor);
-                statement=conn.createStatement();
-                statement.executeUpdate(query);
-                
+                String query = "insert into "+table_name+" values('?', '?')";
+                PreparedStatement stmt = conn.prepareStatement(query);
+                stmt.setString(1,servico);
+                stmt.setDouble(2,valor);
+                stmt.executeUpdate(query);
+                System.out.println("Dado salvo com sucesso!!");
                 
             }catch(Exception e){ System.out.println(e);}
     }
@@ -51,7 +54,7 @@ public class conexBdd {
             Statement statement;
             try{
             statement = conn.createStatement();
-            String sql = "SELECT * FROM"+nome_Tabela;
+            String sql = "SELECT * FROM "+nome_Tabela;
             statement.executeQuery(sql);
             }catch(Exception e){    
                 System.out.println(e);
