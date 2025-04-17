@@ -1,0 +1,5 @@
+com\mycompany\barbeariasistem\BarbeariaSistem.class
+com\barbearia\components\menu.class
+com\barbearia\components\conexBdd.class
+com\barbearia\services\cadastro.class
+com\barbearia\services\consultas.class
