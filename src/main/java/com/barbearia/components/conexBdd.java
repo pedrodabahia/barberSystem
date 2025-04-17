@@ -3,6 +3,7 @@ package com.barbearia.components;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 /**postgresql://admin_matos:ZcVWqMvD307RuvUdbtB8czUGpI4kWPUE@dpg-d00lftre5dus73c2iqb0-a/barberdb_chka
@@ -30,7 +31,7 @@ public class conexBdd {
     public void criarTabela(Connection conn, String table_name){
         Statement statement;
         try{
-            String query="create table "+table_name+"(empid SERIAL ,servico varchar(200),valor double precision,primary key(empid));";
+            String query="create table "+table_name+"(servico varchar(200),valor double precision);";
             //String query = "DROP TABLE IF EXISTS "+table_name;
             statement = conn.createStatement();
             statement.executeUpdate(query);
@@ -41,21 +42,29 @@ public class conexBdd {
     }
         public void cadService(Connection conn,String table_name, String servico, double valor ){
             try{
-                String query = "insert into "+table_name+" values('?', '?')";
+                String query = "insert into "+table_name+" values(?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(query);
                 stmt.setString(1,servico);
                 stmt.setDouble(2,valor);
-                stmt.executeUpdate(query);
+                stmt.executeUpdate( );
                 System.out.println("Dado salvo com sucesso!!");
                 
             }catch(Exception e){ System.out.println(e);}
     }
-        public void consultarDados(Connection conn, String nome_Tabela){
+      public void consultarDados(Connection conn, String nome_Tabela){
             Statement statement;
             try{
             statement = conn.createStatement();
             String sql = "SELECT * FROM "+nome_Tabela;
-            statement.executeQuery(sql);
+            ResultSet rs = statement.executeQuery(sql);
+            
+            if(!rs.next()){}else{
+            String servico = rs.getString("servico");
+            System.out.println(servico);}
+            
+            do{
+            }while(rs.next());
+            
             }catch(Exception e){    
                 System.out.println(e);
             }}

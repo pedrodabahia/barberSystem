@@ -16,6 +16,8 @@ public class BarbeariaSistem {
          conexBdd db = new conexBdd();
          Connection conn=db.connect_to_db("admin_matos", "ZcVWqMvD307RuvUdbtB8czUGpI4kWPUE");
          //db.criarTabela(conn, "services");
-         db.cadService(conn, "services", "corte+sombrancelha", 35.00);
+         db.cadService(conn, "services", "disfarçado", 20.00);
+         db.consultarDados(conn, "services");
     } 
+    
 }
